@@ -1,9 +1,9 @@
+using System;
+using System.ComponentModel;
+
 namespace MathNet.Spatial.Units
 {
-    using System;
-    using System.ComponentModel;
-
-    [Serializable, EditorBrowsable(EditorBrowsableState.Never)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public struct Degrees : IAngleUnit
     {
         private const double Conv = Math.PI / 180.0;

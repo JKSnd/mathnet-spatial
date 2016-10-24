@@ -1,14 +1,9 @@
 using System;
 using System.Globalization;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 namespace MathNet.Spatial.Euclidean
 {
-    [Serializable]
-    public struct Ray3D : IEquatable<Ray3D>, IXmlSerializable, IFormattable
+    public struct Ray3D : IEquatable<Ray3D>, IFormattable
     {
         public readonly Point3D ThroughPoint;
 
@@ -141,25 +136,6 @@ namespace MathNet.Spatial.Euclidean
                 "ThroughPoint: {0}, Direction: {1}",
                 this.ThroughPoint.ToString(format, formatProvider),
                 this.Direction.ToString(format, formatProvider));
-        }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            var e = (XElement)XNode.ReadFrom(reader);
-            XmlExt.SetReadonlyField(ref this, l => l.ThroughPoint, Point3D.ReadFrom(e.SingleElement("ThroughPoint").CreateReader()));
-            XmlExt.SetReadonlyField(ref this, l => l.Direction, UnitVector3D.ReadFrom(e.SingleElement("Direction").CreateReader()));
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteElement("ThroughPoint", this.ThroughPoint);
-            writer.WriteElement("Direction", this.Direction);
         }
     }
 }

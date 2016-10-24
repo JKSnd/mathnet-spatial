@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Spatial.Units;
 
 namespace MathNet.Spatial.Euclidean
 {
-    [Serializable]
-    public struct Plane : IEquatable<Plane>, IXmlSerializable
+    public struct Plane : IEquatable<Plane>
     {
         public readonly UnitVector3D Normal;
         public readonly Point3D RootPoint;
@@ -321,26 +316,6 @@ namespace MathNet.Spatial.Euclidean
         public override string ToString()
         {
             return string.Format("A:{0} B:{1} C:{2} D:{3}", Math.Round(this.A, 4), Math.Round(this.B, 4), Math.Round(this.C, 4), Math.Round(this.D, 4));
-        }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            var e = (XElement)XNode.ReadFrom(reader);
-            XmlExt.SetReadonlyField(ref this, l => l.RootPoint, Point3D.ReadFrom(e.SingleElement("RootPoint").CreateReader()));
-            XmlExt.SetReadonlyField(ref this, l => l.Normal, UnitVector3D.ReadFrom(e.SingleElement("Normal").CreateReader()));
-            XmlExt.SetReadonlyField(ref this, l => l.D, -this.RootPoint.ToVector3D().DotProduct(this.Normal));
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteElement("RootPoint", this.RootPoint);
-            writer.WriteElement("Normal", this.Normal);
         }
     }
 }

@@ -1,17 +1,12 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Spatial.Units;
 
 namespace MathNet.Spatial.Euclidean
 {
-    [Serializable]
-    public class CoordinateSystem : Numerics.LinearAlgebra.Double.DenseMatrix, IEquatable<CoordinateSystem>, IXmlSerializable
+    public class CoordinateSystem : Numerics.LinearAlgebra.Double.DenseMatrix, IEquatable<CoordinateSystem>
     {
         static string _item3DPattern = Parser.Vector3DPattern.Trim('^', '$');
 
@@ -565,40 +560,6 @@ namespace MathNet.Spatial.Euclidean
         public new string ToString()
         {
             return string.Format("Origin: {0}, XAxis: {1}, YAxis: {2}, ZAxis: {3}", this.Origin, this.XAxis, this.YAxis, this.ZAxis);
-        }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            var e = (XElement)XNode.ReadFrom(reader);
-
-            var xAxis = new Vector3D(double.NaN, double.NaN, double.NaN);
-            xAxis.ReadXml(e.SingleElementReader("XAxis"));
-            this.SetColumn(0, new[] { xAxis.X, xAxis.Y, xAxis.Z, 0 });
-
-            var yAxis = new Vector3D(double.NaN, double.NaN, double.NaN);
-            yAxis.ReadXml(e.SingleElementReader("YAxis"));
-            this.SetColumn(1, new[] { yAxis.X, yAxis.Y, yAxis.Z, 0 });
-
-            var zAxis = new Vector3D(double.NaN, double.NaN, double.NaN);
-            zAxis.ReadXml(e.SingleElementReader("ZAxis"));
-            this.SetColumn(2, new[] { zAxis.X, zAxis.Y, zAxis.Z, 0 });
-
-            var origin = new Point3D(double.NaN, double.NaN, double.NaN);
-            origin.ReadXml(e.SingleElementReader("Origin"));
-            this.SetColumn(3, new[] { origin.X, origin.Y, origin.Z, 1 });
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteElement("Origin", this.Origin);
-            writer.WriteElement("XAxis", this.XAxis);
-            writer.WriteElement("YAxis", this.YAxis);
-            writer.WriteElement("ZAxis", this.ZAxis);
         }
     }
 }

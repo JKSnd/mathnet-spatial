@@ -1,9 +1,8 @@
+using System.ComponentModel;
+
 namespace MathNet.Spatial.Units
 {
-    using System;
-    using System.ComponentModel;
-
-    [Serializable, EditorBrowsable(EditorBrowsableState.Never)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public struct Radians : IAngleUnit
     {
         private const double Conv = 1.0;

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 using MathNet.Numerics;
 using MathNet.Spatial.Units;
 
@@ -11,8 +7,7 @@ namespace MathNet.Spatial.Euclidean
     /// <summary>
     /// A line between two points
     /// </summary>
-    [Serializable]
-    public struct Line3D : IEquatable<Line3D>, IXmlSerializable
+    public struct Line3D : IEquatable<Line3D>
     {
         /// <summary>
         /// The startpoint of the line
@@ -334,27 +329,6 @@ namespace MathNet.Spatial.Euclidean
         public override string ToString()
         {
             return string.Format("StartPoint: {0}, EndPoint: {1}", this.StartPoint, this.EndPoint);
-        }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-        
-        public void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            var e = (XElement)XNode.ReadFrom(reader);
-            var startPoint = Point3D.ReadFrom(e.SingleElement("StartPoint").CreateReader());
-            XmlExt.SetReadonlyField(ref this, l => l.StartPoint, startPoint);
-            var endPoint = Point3D.ReadFrom(e.SingleElement("EndPoint").CreateReader());
-            XmlExt.SetReadonlyField(ref this, l => l.EndPoint, endPoint);
-        }
-        
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteElement("StartPoint", this.StartPoint);
-            writer.WriteElement("EndPoint", this.EndPoint);
         }
     }
 }
