@@ -79,5 +79,8 @@ namespace Spatial.Serialization.Xml.Euclidean
             writer.WriteElement("RootPoint", this.RootPoint);
             writer.WriteElement("Normal", this.Normal);
         }
+
+
+      public static PlaneDto Parse(string p) { throw new NotImplementedException(); }
     }
 }

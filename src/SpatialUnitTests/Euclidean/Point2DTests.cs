@@ -183,27 +183,6 @@ namespace MathNet.Spatial.UnitTests.Euclidean
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
-        public void XmlRountrip()
-        {
-            var p = new Point2D(1, 2);
-            const string Xml = @"<Point2D X=""1"" Y=""2"" />";
-            const string ElementXml = @"<Point2D><X>1</X><Y>2</Y></Point2D>";
-
-            AssertXml.XmlRoundTrips(p, Xml, (e, a) => AssertGeometry.AreEqual(e, a));
-            var serializer = new XmlSerializer(typeof(Point2D));
-
-            var actuals = new[]
-                          {
-                              Point2D.ReadFrom(XmlReader.Create(new StringReader(Xml))),
-                              Point2D.ReadFrom(XmlReader.Create(new StringReader(ElementXml))),
-                              (Point2D)serializer.Deserialize(new StringReader(Xml)),
-                              (Point2D)serializer.Deserialize(new StringReader(ElementXml))
-                          };
-            foreach (var actual in actuals)
-            {
-                AssertGeometry.AreEqual(p, actual);
-            }
-        }
+      
     }
 }

@@ -256,19 +256,5 @@ namespace MathNet.Spatial.UnitTests.Euclidean
             var expected = new CoordinateSystem(cs1.Multiply(cs2));
             AssertGeometry.AreEqual(expected, actual);
         }
-
-        [Test]
-        public void XmlRoundTrips()
-        {
-            var cs = new CoordinateSystem(new Point3D(1, -2, 3), new Vector3D(0, 1, 0), new Vector3D(0, 0, 1), new Vector3D(1, 0, 0));
-            const string expected = @"
-<CoordinateSystem>
-    <Origin X=""1"" Y=""-2"" Z=""3"" />
-    <XAxis X=""0"" Y=""1"" Z=""0"" />
-    <YAxis X=""0"" Y=""0"" Z=""1"" />
-    <ZAxis X=""1"" Y=""0"" Z=""0"" />
-</CoordinateSystem>";
-            AssertXml.XmlRoundTrips(cs, expected, (e, a) => AssertGeometry.AreEqual(e, a));
-        }
     }
 }

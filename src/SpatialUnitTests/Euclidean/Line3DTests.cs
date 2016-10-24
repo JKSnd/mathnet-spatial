@@ -73,15 +73,6 @@ namespace MathNet.Spatial.UnitTests.Euclidean
             AssertGeometry.AreEqual(p, actual.EndPoint, 1e-6);
         }
 
-        [TestCase("1, 2, 3", "4, 5, 6", @"<Line3D><StartPoint X=""1"" Y=""2"" Z=""3"" /><EndPoint X=""4"" Y=""5"" Z=""6"" /></Line3D>")]
-        public void XmlTests(string p1s, string p2s, string xml)
-        {
-            Point3D p1 = Point3D.Parse(p1s);
-            Point3D p2 = Point3D.Parse(p2s);
-            var l = new Line3D(p1, p2);
-            AssertXml.XmlRoundTrips(l, xml, (e, a) => AssertGeometry.AreEqual(e, a));
-        }
-
         [TestCase("0,0,0", "0,0,1", "0,0,0", "0,0,0")]  // start point
         [TestCase("0,0,0", "0,0,1", "0,0,1", "0,0,1")]  // end point
         [TestCase("0,0,0", "0,0,1", "1,0,.25", "0,0,.25")]

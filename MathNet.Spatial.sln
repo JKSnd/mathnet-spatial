@@ -33,7 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4A482849-F
 		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spatial.Serialization.Xml", "Spatial.Serialization.Xml\Spatial.Serialization.Xml.csproj", "{55B4AA5B-78D7-4725-8544-FDB5EA495CFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spatial.Serialization.Xml", "src\Spatial.Serialization.Xml\Spatial.Serialization.Xml.csproj", "{55B4AA5B-78D7-4725-8544-FDB5EA495CFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spatial.Serialization.Xml.UnitTests", "src\Spatial.Serialization.Xml.UnitTests\Spatial.Serialization.Xml.UnitTests.csproj", "{36B0742C-1634-431C-878A-6DDC669D4E4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{55B4AA5B-78D7-4725-8544-FDB5EA495CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55B4AA5B-78D7-4725-8544-FDB5EA495CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55B4AA5B-78D7-4725-8544-FDB5EA495CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36B0742C-1634-431C-878A-6DDC669D4E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36B0742C-1634-431C-878A-6DDC669D4E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36B0742C-1634-431C-878A-6DDC669D4E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36B0742C-1634-431C-878A-6DDC669D4E4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

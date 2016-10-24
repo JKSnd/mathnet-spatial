@@ -308,31 +308,7 @@ namespace MathNet.Spatial.UnitTests.Euclidean
             Assert.AreEqual(360 - expected.Degrees, ccw.Degrees, 1e-3);
         }
 
-        [Test]
-        public void XmlRoundtrip()
-        {
-            const string Xml = @"<Vector2D X=""1"" Y=""2"" />";
-            const string ElementXml = @"<Vector2D><X>1</X><Y>2</Y></Vector2D>";
-            var v = new Vector2D(1,2);
-
-            AssertXml.XmlRoundTrips(v, Xml, (e, a) => AssertGeometry.AreEqual(e, a));
-
-            var serializer = new XmlSerializer(typeof(Vector2D));
-
-
-            var actuals = new[]
-                          {
-                              Vector2D.ReadFrom(XmlReader.Create(new StringReader(Xml))),
-                              Vector2D.ReadFrom(XmlReader.Create(new StringReader(ElementXml))),
-                              (Vector2D)serializer.Deserialize(new StringReader(Xml)),
-                              (Vector2D)serializer.Deserialize(new StringReader(ElementXml))
-                          };
-            foreach (var actual in actuals)
-            {
-                AssertGeometry.AreEqual(v, actual);
-            }
-        }
-
+        
         [Test]
         public void BinaryRountrip()
         {

@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using MathNet.Spatial;
 
 namespace Spatial.Serialization.Xml.Euclidean
 {
+    /// <summary>
+    /// A unit vector, this is used to describe a direction in 3D
+    /// </summary>
     [Serializable]
-    public struct Point3DDto : IXmlSerializable, IEquatable<Point3DDto>, IFormattable
+    public struct UnitVector3DDto : IXmlSerializable, IEquatable<UnitVector3DDto>, IEquatable<Vector3DDto>, IFormattable
     {
         /// <summary>
         /// Using public fields cos: http://blogs.msdn.com/b/ricom/archive/2006/08/31/performance-quiz-11-ten-questions-on-value-based-programming.aspx
@@ -29,19 +30,25 @@ namespace Spatial.Serialization.Xml.Euclidean
         /// </summary>
         public readonly double Z;
 
-        public Point3DDto(double x, double y, double z)
+        public UnitVector3DDto(double x, double y, double z)
         {
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            var l = Math.Sqrt((x*x) + (y*y) + (z*z));
+            if (l < float.Epsilon)
+            {
+                throw new ArgumentException("l < float.Epsilon");
+            }
+
+            this.X = x/l;
+            this.Y = y/l;
+            this.Z = z/l;
         }
 
-        public Point3DDto(IEnumerable<double> data)
+        public UnitVector3DDto(IEnumerable<double> data)
             : this(data.ToArray())
         {
         }
 
-        public Point3DDto(double[] data)
+        public UnitVector3DDto(double[] data)
             : this(data[0], data[1], data[2])
         {
             if (data.Length != 3)
@@ -50,7 +57,8 @@ namespace Spatial.Serialization.Xml.Euclidean
             }
         }
 
-  
+
+      
         public override string ToString()
         {
             return this.ToString(null, CultureInfo.InvariantCulture);
@@ -68,14 +76,33 @@ namespace Spatial.Serialization.Xml.Euclidean
             return string.Format("({0}{1} {2}{1} {3})", this.X.ToString(format, numberFormatInfo), separator, this.Y.ToString(format, numberFormatInfo), this.Z.ToString(format, numberFormatInfo));
         }
 
-        public bool Equals(Point3DDto other)
+        public bool Equals(Vector3DDto other)
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
             return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
-        public bool Equals(Point3DDto other, double tolerance)
+        public bool Equals(UnitVector3DDto other)
+        {
+            // ReSharper disable CompareOfFloatsByEqualityOperator
+            return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
+            // ReSharper restore CompareOfFloatsByEqualityOperator
+        }
+
+        public bool Equals(UnitVector3DDto other, double tolerance)
+        {
+            if (tolerance < 0)
+            {
+                throw new ArgumentException("epsilon < 0");
+            }
+
+            return Math.Abs(other.X - this.X) < tolerance &&
+                   Math.Abs(other.Y - this.Y) < tolerance &&
+                   Math.Abs(other.Z - this.Z) < tolerance;
+        }
+
+        public bool Equals(Vector3DDto other, double tolerance)
         {
             if (tolerance < 0)
             {
@@ -94,7 +121,8 @@ namespace Spatial.Serialization.Xml.Euclidean
                 return false;
             }
 
-            return obj is Point3DDto && this.Equals((Point3DDto)obj);
+            return (obj is UnitVector3DDto && this.Equals((UnitVector3DDto)obj)) ||
+                   (obj is Vector3DDto && this.Equals((Vector3DDto)obj));
         }
 
         public override int GetHashCode()
@@ -129,11 +157,9 @@ namespace Spatial.Serialization.Xml.Euclidean
             var e = (XElement)XNode.ReadFrom(reader);
 
             // Hacking set readonly fields here, can't think of a cleaner workaround
-            double x = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X"));
-            double y = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y"));
-            double z = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Z"));
-
-            XmlExt.SetReadonlyFields(ref this, new[] { "X", "Y", "Z" }, new[] { x, y, z });
+            XmlExt.SetReadonlyField(ref this, x => x.X, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X")));
+            XmlExt.SetReadonlyField(ref this, x => x.Y, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y")));
+            XmlExt.SetReadonlyField(ref this, x => x.Z, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Z")));
         }
 
         /// <summary>
@@ -147,12 +173,15 @@ namespace Spatial.Serialization.Xml.Euclidean
             writer.WriteAttribute("Z", this.Z);
         }
 
-        public static Point3DDto ReadFrom(XmlReader reader)
+        public static UnitVector3DDto ReadFrom(XmlReader reader)
         {
-            var p = new Point3DDto();
-            p.ReadXml(reader);
-            return p;
+            var v = new UnitVector3DDto();
+            v.ReadXml(reader);
+            return v;
         }
-    
+
+
+      public Vector3DDto ToVector3DDto() { throw new NotImplementedException(); }
+      public static UnitVector3DDto Parse(string s) { throw new NotImplementedException(); }
     }
 }

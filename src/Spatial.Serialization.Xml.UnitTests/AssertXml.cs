@@ -7,14 +7,14 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using NUnit.Framework;
 
-namespace MathNet.Spatial.UnitTests
+namespace Spatial.Serialization.Xml.UnitTests
 {
     public static class AssertXml
     {
         public static void AreEqual(string first, string other)
         {
-            var x1 = CleanupXml(first);
-            var x2 = CleanupXml(other);
+            var x1 = AssertXml.CleanupXml(first);
+            var x2 = AssertXml.CleanupXml(other);
             Assert.AreEqual(x1, x2);
         }
 
@@ -31,8 +31,8 @@ namespace MathNet.Spatial.UnitTests
         {
             var roundtrips = new[]
             {
-                XmlSerializerRoundTrip(item, expectedXml),
-                DataContractRoundTrip(item, expectedXml)
+                AssertXml.XmlSerializerRoundTrip(item, expectedXml),
+                AssertXml.DataContractRoundTrip(item, expectedXml)
             };
             foreach (var roundtrip in roundtrips)
             {
@@ -46,14 +46,14 @@ namespace MathNet.Spatial.UnitTests
             string xml;
 
             using (var sw = new StringWriter())
-            using (var writer = XmlWriter.Create(sw, Settings))
+            using (var writer = XmlWriter.Create(sw, AssertXml.Settings))
             {
                 serializer.Serialize(writer, item);
                 xml = sw.ToString();
                 Console.WriteLine("XmlSerializer");
                 Console.Write(xml);
                 Console.WriteLine();
-                AreEqual(expected, xml);
+                AssertXml.AreEqual(expected, xml);
             }
             using (var reader = new StringReader(xml))
             {
@@ -65,7 +65,7 @@ namespace MathNet.Spatial.UnitTests
             var serializer = new DataContractSerializer(item.GetType());
             string xml;
             using (var sw = new StringWriter())
-            using (var writer = XmlWriter.Create(sw, Settings))
+            using (var writer = XmlWriter.Create(sw, AssertXml.Settings))
             {
                 serializer.WriteObject(writer, item);
                 writer.Flush();
@@ -73,7 +73,7 @@ namespace MathNet.Spatial.UnitTests
                 Console.WriteLine("DataContractSerializer");
                 Console.Write(xml);
                 Console.WriteLine();
-                AreEqual(expected, xml);
+                AssertXml.AreEqual(expected, xml);
             }
             using (var stringReader = new StringReader(xml))
             using (var reader = XmlReader.Create(stringReader))
@@ -98,12 +98,12 @@ namespace MathNet.Spatial.UnitTests
         private static string Normalize(string xml)
         {
             var e = XElement.Parse(xml);
-            return Normalize(e);
+            return AssertXml.Normalize(e);
         }
         private static string Normalize(XElement e)
         {
             using (var sw = new StringWriter())
-            using (var writer = XmlWriter.Create(sw, Settings))
+            using (var writer = XmlWriter.Create(sw, AssertXml.Settings))
             {
                 e.WriteTo(writer);
                 writer.Flush();
@@ -113,8 +113,8 @@ namespace MathNet.Spatial.UnitTests
         private static string CleanupXml(string xml)
         {
             var e = XElement.Parse(xml);
-            XElement clean = RemoveAllNamespaces(e);
-            return Normalize(clean);
+            XElement clean = AssertXml.RemoveAllNamespaces(e);
+            return AssertXml.Normalize(clean);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace MathNet.Spatial.UnitTests
         {
             var ne = new XElement(e.Name.LocalName, e.HasElements ? null : e.Value);
             ne.Add(e.Attributes().Where(a => !a.IsNamespaceDeclaration));
-            ne.Add(e.Elements().Select(RemoveAllNamespaces));
+            ne.Add(e.Elements().Select(AssertXml.RemoveAllNamespaces));
             return ne;
         }
     }

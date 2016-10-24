@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace MathNet.Spatial.UnitTests
+namespace Spatial.Serialization.Xml.UnitTests
 {
     public class XmlSerializableDummy : IXmlSerializable
     {
@@ -15,15 +15,15 @@ namespace MathNet.Spatial.UnitTests
         }
         public XmlSerializableDummy(string name, int age)
         {
-            Age = age;
-            _name = name;
+            this.Age = age;
+            this._name = name;
         }
 
         public string Name
         {
             get
             {
-                return _name;
+                return this._name;
             }
         }
 
@@ -33,14 +33,14 @@ namespace MathNet.Spatial.UnitTests
         public void ReadXml(XmlReader reader)
         {
             var e = (XElement)XNode.ReadFrom(reader);
-            Age = XmlConvert.ToInt32(e.Attribute("Age").Value);
+            this.Age = XmlConvert.ToInt32(e.Attribute("Age").Value);
             var name = e.ReadAttributeOrElement("Name");
-            XmlExt.WriteValueToReadonlyField(this, name, () => _name);
+            XmlExt.WriteValueToReadonlyField(this, name, () => this._name);
         }
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("Age", Age.ToString(CultureInfo.InvariantCulture));
-            writer.WriteElementString("Name", Name);
+            writer.WriteAttributeString("Age", this.Age.ToString(CultureInfo.InvariantCulture));
+            writer.WriteElementString("Name", this.Name);
         }
     }
 }

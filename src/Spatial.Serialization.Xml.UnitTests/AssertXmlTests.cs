@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace MathNet.Spatial.UnitTests
+namespace Spatial.Serialization.Xml.UnitTests
 {
     public class AssertXmlTests
     {

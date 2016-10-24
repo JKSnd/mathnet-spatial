@@ -132,5 +132,9 @@ namespace Spatial.Serialization.Xml.Euclidean
             writer.WriteAttribute("X", this.X);
             writer.WriteAttribute("Y", this.Y);
         }
+
+
+      public static Point2DDto ReadFrom(XmlReader reader
+        ) { throw new NotImplementedException(); }
     }
 }

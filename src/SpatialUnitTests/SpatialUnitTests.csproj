@@ -65,16 +65,12 @@
     <Compile Include="Euclidean\Ray3DTests.cs" />
     <Compile Include="Euclidean\UnitVector3DTests.cs" />
     <Compile Include="Euclidean\Vector3DTests.cs" />
-    <Compile Include="AssertXml.cs" />
-    <Compile Include="AssertXmlTests.cs" />
     <Compile Include="AssertGeometry.cs" />
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Units\AngleTests.cs" />
-    <Compile Include="XmlSerializableDummy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
@@ -86,9 +82,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SandBox\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

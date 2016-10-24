@@ -200,13 +200,6 @@ namespace MathNet.Spatial.UnitTests.Euclidean
             }
         }
 
-        [TestCase("p:{0, 0, 0} v:{0, 0, 1}", @"<Plane><RootPoint X=""0"" Y=""0"" Z=""0"" /><Normal X=""0"" Y=""0"" Z=""1"" /></Plane>")]
-        public void XmlRoundTrips(string p1s, string xml)
-        {
-            var plane = Plane.Parse(p1s);
-            AssertXml.XmlRoundTrips(plane, xml, (e, a) => AssertGeometry.AreEqual(e, a));
-        }
-
         [TestCase("p:{0, 0, 0} v:{0, 0, 1}")]
         public void BinaryRountrip(string pls)
         {

@@ -395,29 +395,5 @@ namespace MathNet.Spatial.UnitTests.Euclidean
             AssertGeometry.AreEqual(Vector3D.Parse(expected), mulitplier * vector, 1e-6);
             AssertGeometry.AreEqual(Vector3D.Parse(expected), mulitplier * vector, 1e-6);
         }
-
-        [Test]
-        public void SerializeDeserialize()
-        {
-            var v = new Vector3D(1, -2, 3);
-            const string Xml = @"<Vector3D X=""1"" Y=""-2"" Z=""3"" />";
-            const string ElementXml = @"<Vector3D><X>1</X><Y>-2</Y><Z>3</Z></Vector3D>";
-            var roundTrip = AssertXml.XmlSerializerRoundTrip(v, Xml);
-            AssertGeometry.AreEqual(v, roundTrip);
-
-            var serializer = new XmlSerializer(typeof(Vector3D));
-
-            var actuals = new[]
-                          {
-                              Vector3D.ReadFrom(XmlReader.Create(new StringReader(Xml))),
-                              Vector3D.ReadFrom(XmlReader.Create(new StringReader(ElementXml))),
-                              (Vector3D)serializer.Deserialize(new StringReader(Xml)),
-                              (Vector3D)serializer.Deserialize(new StringReader(ElementXml))
-                          };
-            foreach (var actual in actuals)
-            {
-                AssertGeometry.AreEqual(v, actual);
-            }
-        }
     }
 }

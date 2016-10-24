@@ -107,27 +107,6 @@ namespace MathNet.Spatial.UnitTests.Euclidean
         }
 
         [Test]
-        public void XmlRoundTrips()
-        {
-            var uv = new UnitVector3D(0.2672612419124244, -0.53452248382484879, 0.80178372573727319);
-            var xml = @"<UnitVector3D X=""0.2672612419124244"" Y=""-0.53452248382484879"" Z=""0.80178372573727319"" />";
-            var elementXml = @"<UnitVector3D><X>0.2672612419124244</X><Y>-0.53452248382484879</Y><Z>0.80178372573727319</Z></UnitVector3D>";
-
-            AssertXml.XmlRoundTrips(uv, xml, (e, a) => AssertGeometry.AreEqual(e, a));
-            var serializer = new XmlSerializer(typeof(UnitVector3D));
-            var actuals = new[]
-                                {
-                                    UnitVector3D.ReadFrom(XmlReader.Create(new StringReader(xml))),
-                                    (UnitVector3D)serializer.Deserialize(new StringReader(xml)),
-                                    (UnitVector3D)serializer.Deserialize(new StringReader(elementXml))
-                                };
-            foreach (var actual in actuals)
-            {
-                AssertGeometry.AreEqual(uv, actual);
-            }
-        }
-
-        [Test]
         public void CastTest()
         {
             Assert.Inconclusive("Is it possible to implement this in a good way?");
