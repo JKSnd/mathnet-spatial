@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace MathNet.Spatial
+namespace Spatial.Serialization.Xml
 {
   public static class XmlExt
     {
